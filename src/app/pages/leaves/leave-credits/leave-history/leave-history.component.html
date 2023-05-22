@@ -1,0 +1,200 @@
+<section class="content-header">
+  <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-lg-12">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item">Leaves</li>
+              <li class="breadcrumb-item active" aria-current="page">Leave History</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+  </div>
+</section>
+
+<section class="content">
+  <div class="card">
+    <div class="card-header row">
+      <div class="col-lg-6 mt-2">
+        <h1 class="text-primary"><i class="bi bi-list-columns mr-2"></i>LEAVE HISTORY</h1>
+      </div>
+      <div class="col-lg-6 text-right">
+
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card">
+            <div class="card-body">
+              <form [formGroup]="form" #ngForm (ngSubmit)="submitLeaveHistory()">
+                <!-- <div class="row">
+                  <div class="col-lg-12">
+                    <div class="form-group">
+                      <label for="id_no" class="form-label">Employee</label>
+                      <select name="id_no" id="id_no" class="form-control" formControlName="id_no" placeholder="Select Employee">
+                        <option [value]="null">Select Employee</option>
+                        <option *ngFor="let employee of employees" [value]="employee.doc.id_no">{{ employee.doc.firstName }} {{ employee.doc.middleName }} {{ employee.doc.lastName }} {{ employee.doc.ext }}</option>
+                      </select>
+                      <div class="text-danger" *ngIf="!f.get('id_no').valid && f.get('id_no').touched">
+                        Please provide valid input.
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label for="leaveType" class="form-label">Leave Type<span class="text-danger">*</span></label>
+                      <select name="leaveType" id="leaveType" class="form-control" formControlName="leaveType" placeholder="Select Type">
+                        <option [value]="null">Select Type</option>
+                        <option *ngFor="let type of leaveTypes" [value]="type.doc.code">{{ type.doc.leave_name }}</option>
+                      </select>
+                      <div class="text-danger" *ngIf="!f.get('leaveType').valid && f.get('leaveType').touched">
+                        Please provide valid input.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div style="margin-top: 35px !important;" class="form-group form-check">
+                      <input type="checkbox" name="leaveWithoutPay" id="leaveWithoutPay" class="form-check-input" formControlName="leaveWithoutPay" placeholder="Leave without Pay">
+                      <label for="leaveWithoutPay" class="form-check-label">Leave W/O Pay</label>
+                      <div class="text-danger" *ngIf="!f.get('leaveWithoutPay').valid && f.get('leaveWithoutPay').touched">
+                        Please provide valid input.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="alert alert-secondary" role="alert">
+                  Period Covered
+                </div>
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="form-group">
+                      <label for="startDateTime" class="form-label">Start Date<span class="text-danger">*</span></label>
+                      <input type="datetime-local" max="{{ f.get('finishDateTime').value}}" class="form-control" name="startDateTime" id="startDateTime" formControlName="startDateTime" placeholder="Start Date">
+                      <div class="text-danger" *ngIf="!f.get('startDateTime').valid && f.get('startDateTime').touched">
+                        Please provide valid input.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="form-group">
+                      <label for="finishDateTime" class="form-label">End Date<span class="text-danger">*</span></label>
+                      <input type="datetime-local" min="{{ f.get('startDateTime').value}}" class="form-control" name="finishDateTime" id="finishDateTime" formControlName="finishDateTime" placeholder="End Date">
+                      <div class="text-danger" *ngIf="!f.get('finishDateTime').valid && f.get('finishDateTime').touched">
+                        Please provide valid input.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label for="totalDays" class="form-label">Total Days: {{ getDiffDays(f.get('startDateTime').value, f.get('finishDateTime').value) }}</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="alert alert-secondary" role="alert">
+                  Reasons and Vacation Leave Details
+                </div>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label for="reason" class="form-label">Reason<span class="text-danger">*</span></label>
+                      <select name="reason" id="reason" class="form-control" formControlName="reason" placeholder="Select Reason">
+                        <option [value]="null">Select Reason</option>
+                        <option [value]="'To seek employment'">To seek employment</option>
+                        <option [value]="'Maternity'">Maternity</option>
+                        <option [value]="'Birthday Leave'">Birthday Leave</option>
+                        <option [value]="'Priviledge Leave'">Priviledge Leave</option>
+                        <option [value]="'Forced Leave'">Forced Leave</option>
+                        <option [value]="'Others'">Others</option>
+                      </select>
+                      <div class="text-danger" *ngIf="!f.get('reason').valid && f.get('reason').touched">
+                        Please provide valid input.
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="otherReason" class="form-label">Other Reason</label>
+                      <textarea name="otherReason" id="otherReason" cols="30" rows="3" class="form-control" formControlName="otherReason" placeholder="Other Reason"></textarea>
+                      <div class="text-danger" *ngIf="!f.get('otherReason').valid && f.get('otherReason').touched">
+                        Please provide valid input.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label for="location" class="form-label">Vacation<span class="text-danger">*</span></label>
+                      <select name="location" id="location" class="form-control" formControlName="location" placeholder="Select Vacation">
+                        <option [value]="null">Select Location</option>
+                        <option [value]="'Local'">Local</option>
+                        <option [value]="'International'">International</option>
+                      </select>
+                      <div class="text-danger" *ngIf="!f.get('location').valid && f.get('location').touched">
+                        Please provide valid input.
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="vacationDescription" class="form-label">Vacation Description</label>
+                      <textarea name="vacationDescription" id="vacationDescription" cols="30" rows="3" class="form-control" formControlName="vacationDescription" placeholder="Vacation Description"></textarea>
+                      <div class="text-danger" *ngIf="!f.get('vacationDescription').valid && f.get('vacationDescription').touched">
+                        Please provide valid input.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="card-footer text-right">
+              <button type="button" class="btn btn-outline-dark mr-2" (click)="form.reset()">Cancel</button>
+              <button type="submit" class="btn btn-success" (click)="submitLeaveHistory()">Save</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="table-responsive mt-2" *ngIf="leaves.length">
+            <table class="table-striped" datatable [dtOptions]="dtOptions">
+              <thead>
+                <tr>
+                  <th>Reference</th>
+                  <th>Leave Type</th>
+                  <th>Period Covered</th>
+                  <th>Total Leave</th>
+                  <th>Status</th>
+                  <th>Validity</th>
+                  <th class="noExport"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of leaves; let i = index;">
+                  <td>{{ data.doc.referenceNumber }}</td>
+                  <td>{{ data.doc.leaveName }}</td>
+                  <td>{{ data.doc.finishDateTime | date }}</td>
+                  <td>{{ data.doc.totalDays }}</td>
+                  <td>-</td>
+                  <td>{{ data.doc.finishDateTime | date }}</td>
+                  <td>
+                    <div class="dropdown">
+                      <button class="btn btn-light btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-ellipsis-v"></i>
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" (click)="editLeaveHistory(data.doc)">Edit</a>
+                        <a class="dropdown-item text-danger" (click)="deleteLeaveHistory(data.doc)">Delete</a>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+</section>

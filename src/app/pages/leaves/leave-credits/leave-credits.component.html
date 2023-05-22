@@ -1,0 +1,243 @@
+<section class="content-header">
+  <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-lg-12">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item">Leaves</li>
+              <li class="breadcrumb-item active" aria-current="page">Leave Credits</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+  </div>
+</section>
+
+<section class="content">
+  <div class="card">
+    <div class="card-header row">
+      <div class="col-lg-6 mt-2">
+        <h1 class="text-primary"><i class="bi bi-list-columns mr-2"></i>LEAVE CREDITS</h1>
+      </div>
+      <div class="col-lg-6 text-right">
+        <!-- <button type="button" (click)="open(leave)" class="btn btn-primary mr-2">
+          <i class="fa-solid fa-plus"></i>
+          Create Credit
+        </button> -->
+        <!-- <button class="btn btn-success mr-2" type="submit">
+          <i class="fa-solid fa-floppy-disk"></i>
+          Save
+        </button>
+        <button type="button" (click)="getEmployees()" class="btn btn-secondary">
+          <i class="fa-solid fa-arrows-rotate"></i>
+          Refresh
+        </button> -->
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive mt-2" *ngIf="employees.length">
+        <table class="table-striped" datatable [dtOptions]="dtOptions">
+          <thead>
+            <tr>
+              <th class="noExport">View</th>
+              <th class="noExport">View</th>
+              <th>Employee ID</th>
+              <th>Complete Name</th>
+              <th>Sick</th>
+              <th>Vacation</th>
+              <th>Total</th>
+              <th>Position Title</th>
+              <th>Department</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of employees; let i = index;">
+              <td style="cursor: pointer;" class="text-primary" (click)="showLeaveCredit(data.doc, leave)">Credit</td>
+              <td style="cursor: pointer;" class="text-primary" (click)="showLeaveHistory(data.doc, leave)">Ledger</td>
+              <td>{{ data.doc.id_no }}</td>
+              <td>{{ data.doc.employeeName }}</td>
+              <td>{{ data.doc.sick }}</td>
+              <td>{{ data.doc.vacation }}</td>
+              <td>{{ data.doc.total }}</td>
+              <td>{{ data.doc.positionTitle }}</td>
+              <td>{{ data.doc.serviceInformation?.department }}</td>
+              <td>{{ data.doc.serviceInformation?.status }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #leave>
+  <div class="modal-header">
+    <h1 *ngIf="!leaveHistory" class="modal-title" id="modal-basic-title">Credits</h1>
+    <h1 *ngIf="leaveHistory" class="modal-title" id="modal-basic-title">Leave Ledger</h1>
+		<button type="button" class="close" aria-label="Close" (click)="dismiss(); form.reset()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="text-right">
+      <button *ngIf="!leaveHistory" type="button" (click)="openCreate(leaveCredit)" class="btn btn-primary mr-2">
+        <i class="fa-solid fa-plus"></i>
+        Create Credit
+      </button>
+      <button *ngIf="leaveHistory" type="button" (click)="goToLeaveHistory()" class="btn btn-primary mr-2">
+        <i class="fa-solid fa-plus"></i>
+        Create Leave
+      </button>
+    </div>
+    <div class="table-responsive mt-2" *ngIf="leaveCredits.length && !leaveHistory">
+      <table class="table-striped" datatable [dtOptions]="dtOptions">
+        <thead>
+          <tr>
+            <th>Leave</th>
+            <th>Date</th>
+            <th>Earned</th>
+            <th>Posted</th>
+            <th class="noExport"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of leaveCredits; let i = index;">
+            <td>{{ data.doc.leaveName }}</td>
+            <td>{{ data.doc.dateEarned }}</td>
+            <td>{{ data.doc.credits }}</td>
+            <td>1</td>
+            <td>
+              <div class="dropdown">
+                <button class="btn btn-light btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-ellipsis-v"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item text-danger" (click)="deleteLeaveCredit(data.doc)">Delete</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Total:</td>
+            <td></td>
+            <td>{{ totalEarned }}</td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-responsive mt-2" *ngIf="leaveCredits.length && leaveHistory">
+      <table class="table-striped" datatable [dtOptions]="dtOptions">
+        <thead>
+          <tr>
+            <th colspan="2"></th>
+            <th class="text-center" colspan="4">Sick Leave</th>
+            <th class="text-center" colspan="4">Vacation Leave</th>
+            <th colspan="1"></th>
+          </tr>
+          <tr>
+            <th>Period</th>
+            <th>Particular</th>
+            <th>Earned</th>
+            <th>Leave w/ Pay</th>
+            <th>Leave w/o Pay</th>
+            <th>Balance</th>
+            <th>Earned</th>
+            <th>Leave w/ Pay</th>
+            <th>Leave w/o Pay</th>
+            <th>Balance</th>
+            <th>Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of leaveCredits; let i = index;">
+            <td>{{ data.doc.dateEarned }}</td>
+            <td>{{ data.doc.remarks }}</td>
+            <td *ngIf="data.doc.leaveName === 'Sick Leave'">{{ data.doc.originalCredits }}</td>
+            <td *ngIf="data.doc.leaveName === 'Sick Leave'">-</td>
+            <td *ngIf="data.doc.leaveName === 'Sick Leave'">0.0</td>
+            <td *ngIf="data.doc.leaveName === 'Sick Leave'">{{ data.doc.credits }}</td>
+            <td *ngIf="data.doc.leaveName === 'Sick Leave'">-</td>
+            <td *ngIf="data.doc.leaveName === 'Sick Leave'">-</td>
+            <td *ngIf="data.doc.leaveName === 'Sick Leave'">0.0</td>
+            <td *ngIf="data.doc.leaveName === 'Sick Leave'">0</td>
+            <td *ngIf="data.doc.leaveName === 'Vacation Leave'">-</td>
+            <td *ngIf="data.doc.leaveName === 'Vacation Leave'">-</td>
+            <td *ngIf="data.doc.leaveName === 'Vacation Leave'">0.0</td>
+            <td *ngIf="data.doc.leaveName === 'Vacation Leave'">0</td>
+            <td *ngIf="data.doc.leaveName === 'Vacation Leave'">{{ data.doc.originalCredits }}</td>
+            <td *ngIf="data.doc.leaveName === 'Vacation Leave'">-</td>
+            <td *ngIf="data.doc.leaveName === 'Vacation Leave'">0.0</td>
+            <td *ngIf="data.doc.leaveName === 'Vacation Leave'">{{ data.doc.credits }}</td>
+            <td *ngIf="data.doc.leaveName !== 'Sick Leave' && data.doc.leaveName !== 'Vacation Leave'">{{ data.doc.originalCredits }}</td>
+            <td *ngIf="data.doc.leaveName !== 'Sick Leave' && data.doc.leaveName !== 'Vacation Leave'">-</td>
+            <td *ngIf="data.doc.leaveName !== 'Sick Leave' && data.doc.leaveName !== 'Vacation Leave'">0.0</td>
+            <td *ngIf="data.doc.leaveName !== 'Sick Leave' && data.doc.leaveName !== 'Vacation Leave'">{{ data.doc.credits }}</td>
+            <td *ngIf="data.doc.leaveName !== 'Sick Leave' && data.doc.leaveName !== 'Vacation Leave'">-</td>
+            <td *ngIf="data.doc.leaveName !== 'Sick Leave' && data.doc.leaveName !== 'Vacation Leave'">-</td>
+            <td *ngIf="data.doc.leaveName !== 'Sick Leave' && data.doc.leaveName !== 'Vacation Leave'">0.0</td>
+            <td *ngIf="data.doc.leaveName !== 'Sick Leave' && data.doc.leaveName !== 'Vacation Leave'">0</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #leaveCredit>
+	<div class="modal-header">
+		<h1 class="modal-title" id="modal-basic-title">Leave Credit</h1>
+		<button type="button" class="close" aria-label="Close" (click)="dismissCreate(); form.reset()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+	</div>
+	<div class="modal-body">
+		<form [formGroup]="form" #ngForm (ngSubmit)="submitLeaveCredit()">
+      <div class="row">
+        <div class="col-lg-6">
+          <label for="leaveType" class="form-label">Leave<span class="text-danger">*</span></label>
+          <select name="leaveType" id="leaveType" class="form-control" formControlName="leaveType" placeholder="Select Leave">
+            <option [value]="null">Select Leave</option>
+            <option *ngFor="let type of leaveTypes" [value]="type.doc.code">{{ type.doc.leave_name }}</option>
+          </select>
+          <div class="text-danger" *ngIf="!f.get('leaveType').valid && f.get('leaveType').touched">
+            Please provide valid input.
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <label for="dateEarned" class="form-label">Date<span class="text-danger">*</span></label>
+          <input type="date" min="{{dateToday | date:'yyyy-MM-dd'}}" class="form-control" formControlName="dateEarned" placeholder="Date Earned">
+          <div class="text-danger" *ngIf="!f.get('dateEarned').valid && f.get('dateEarned').touched">
+            Please provide valid input.
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <label for="credits" class="form-label">Credit<span class="text-danger">*</span></label>
+          <input type="number" min="0" class="form-control" formControlName="credits" placeholder="Credits">
+          <div class="text-danger" *ngIf="!f.get('credits').valid && f.get('credits').touched">
+            Please provide valid input.
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <label for="remarks" class="form-label">Remarks</label>
+          <textarea class="form-control" name="remarks" id="remarks" cols="30" rows="3" formControlName="remarks" placeholder="Remarks"></textarea>
+          <div class="text-danger" *ngIf="!f.get('remarks').valid && f.get('remarks').touched">
+            Please provide valid input.
+          </div>
+        </div>
+      </div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-dark" (click)="dismissCreate(); form.reset()">Cancel</button>
+		<button type="submit" class="btn btn-success" (click)="submitLeaveCredit()">Save</button>
+	</div>
+</ng-template>

@@ -1,0 +1,502 @@
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Profile</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">User Profile</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<form>
+  <section [formGroup]="form" class="content" #ngForm (ngSubmit)="updateUser()">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-3">
+                  <!-- Profile Image -->
+                  <div class="card card-primary card-outline">
+                      <div class="card-body box-profile">
+                          <div class="text-center">
+                              <pf-image
+                                  class="user-img"
+                                  src="/assets/img/default-profile.png"
+                                  alt="User profile picture"
+                                  width="100"
+                                  height="100"
+                                  rounded
+                              ></pf-image>
+                          </div>
+
+                          <h3 class="profile-username text-center">
+                              Nina Mcintire
+                          </h3>
+
+                          <p class="text-muted text-center">Software Engineer</p>
+
+                          <ul class="list-group list-group-unbordered mb-3">
+                              <li class="list-group-item">
+                                  <b>Followers</b>
+                                  <a class="float-right">1,402</a>
+                              </li>
+                              <li class="list-group-item">
+                                  <b>Following</b> <a class="float-right">543</a>
+                              </li>
+                              <li class="list-group-item">
+                                  <b>Friends</b> <a class="float-right">13,287</a>
+                              </li>
+                          </ul>
+
+                          <a href="#" class="btn btn-primary btn-block"
+                              ><b>Follow</b></a
+                          >
+                      </div>
+                      <!-- /.card-body -->
+                  </div>
+                  <!-- /.card -->
+
+                  <!-- About Me Box -->
+                  <div class="card card-primary">
+                      <div class="card-header">
+                          <h3 class="card-title">About Me</h3>
+                      </div>
+                      <!-- /.card-header -->
+                      <div class="card-body">
+                          <strong
+                              ><i class="fas fa-book mr-1"></i> Education</strong
+                          >
+
+                          <p class="text-muted">
+                              B.S. in Computer Science from the University of
+                              Tennessee at Knoxville
+                          </p>
+
+                          <hr />
+
+                          <strong>
+                              <i class="fas fa-map-marker-alt mr-1"></i>
+                              Location
+                          </strong>
+
+                          <p class="text-muted">Malibu, California</p>
+
+                          <hr />
+
+                          <strong
+                              ><i class="fas fa-pencil-alt mr-1"></i>
+                              Skills</strong
+                          >
+
+                          <p class="text-muted">
+                              <span class="tag tag-danger">UI Design</span>
+                              <span class="tag tag-success">Coding</span>
+                              <span class="tag tag-info">Javascript</span>
+                              <span class="tag tag-warning">PHP</span>
+                              <span class="tag tag-primary">Node.js</span>
+                          </p>
+
+                          <hr />
+
+                          <strong
+                              ><i class="far fa-file-alt mr-1"></i> Notes</strong
+                          >
+
+                          <p class="text-muted">
+                              Lorem ipsum dolor sit amet, consectetur adipiscing
+                              elit. Etiam fermentum enim neque.
+                          </p>
+                      </div>
+                      <!-- /.card-body -->
+                  </div>
+                  <!-- /.card -->
+              </div>
+              <!-- /.col -->
+              <div class="col-md-9">
+                  <div class="card">
+                      <div class="card-header p-2">
+                          <ul class="nav nav-pills">
+                              <li class="nav-item">
+                                  <a
+                                      class="nav-link active"
+                                      href="#personalInfo"
+                                      data-toggle="tab"
+                                      >Personal Information</a
+                                  >
+                              </li>
+                              <li class="nav-item">
+                                  <a
+                                      class="nav-link"
+                                      href="#timeline"
+                                      data-toggle="tab"
+                                      >Timeline</a
+                                  >
+                              </li>
+                              <li class="nav-item">
+                                  <a
+                                      class="nav-link"
+                                      href="#settings"
+                                      data-toggle="tab"
+                                      >Settings</a
+                                  >
+                              </li>
+                          </ul>
+                      </div>
+                      <!-- /.card-header -->
+                      <div class="card-body">
+                          <div class="tab-content">
+                              <div class="active tab-pane" id="personalInfo">
+                                <div class="row">
+                                  <div class="col-lg-4">
+                                    <div class="form-group">
+                                      <label for="lastName" class="form-label">Last Name<span class="text-danger">*</span></label>
+                                      <input type="text" class="form-control" formControlName="lastName" placeholder="Last Name">
+                                      <div class="text-danger" *ngIf="!f.get('lastName').valid && f.get('lastName').touched">
+                                        Please provide valid input.
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <div class="form-group">
+                                      <label for="firstName" class="form-label">First Name<span class="text-danger">*</span></label>
+                                      <input type="text" class="form-control" formControlName="firstName" placeholder="First Name">
+                                      <div class="text-danger" *ngIf="!f.get('firstName').valid && f.get('firstName').touched">
+                                        Please provide valid input.
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <div class="form-group">
+                                      <label for="middleName" class="form-label">Middle Name<span class="text-danger"></span></label>
+                                      <input type="text" class="form-control" formControlName="middleName" placeholder="Middle Name">
+                                      <div class="text-danger" *ngIf="!f.get('middleName').valid && f.get('middleName').touched">
+                                        Please provide valid input.
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-lg-4">
+                                    <div class="form-group">
+                                      <label for="gender" class="form-label">Gender</label>
+                                      <input type="text" class="form-control" formControlName="gender" placeholder="Gender">
+                                      <div class="text-danger" *ngIf="!f.get('gender').valid && f.get('gender').touched">
+                                        Please provide valid input.
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <div class="form-group">
+                                      <label for="birthDate" class="form-label">Birth Date<span class="text-danger">*</span></label>
+                                      <input type="date" class="form-control" formControlName="birthDate" placeholder="BirthDate">
+                                      <div class="text-danger" *ngIf="!f.get('birthDate').valid && f.get('birthDate').touched">
+                                        Please provide valid input.
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <div class="form-group">
+                                      <label for="placeOfBirth" class="form-label">Place of Birth</label>
+                                      <input type="text" class="form-control" formControlName="placeOfBirth" placeholder="Place of Birth">
+                                      <div class="text-danger" *ngIf="!f.get('placeOfBirth').valid && f.get('placeOfBirth').touched">
+                                        Please provide valid input.
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-lg-4">
+                                    <div class="form-group">
+                                      <label for="telephone" class="form-label">Telephone</label>
+                                      <input type="text" class="form-control" formControlName="telephone" placeholder="(052) 123 4567">
+                                      <div class="text-danger" *ngIf="!f.get('telephone').valid && f.get('telephone').touched">
+                                        Please provide valid input.
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <div class="form-group">
+                                      <label for="mobileNumber" class="form-label">Mobile #</label>
+                                      <input type="text" class="form-control" formControlName="mobileNumber" placeholder="09171234567">
+                                      <div class="text-danger" *ngIf="!f.get('mobileNumber').valid && f.get('mobileNumber').touched">
+                                        Please provide valid input.
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <div class="form-group">
+                                      <label for="email" class="form-label">Email</label>
+                                      <input type="text" class="form-control" formControlName="email" placeholder="name@email.com">
+                                      <div class="text-danger" *ngIf="!f.get('email').valid && f.get('email').touched">
+                                        Please provide valid input.
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-lg-12">
+                                    <div class="form-group">
+                                      <label for="presentAddress" class="form-label">Present Address</label>
+                                      <textarea name="presentAddress" id="presentAddress" cols="30" rows="3" class="form-control" formControlName="presentAddress" placeholder="Present Address"></textarea>
+                                      <div class="text-danger" *ngIf="!f.get('presentAddress').valid && f.get('presentAddress').touched">
+                                        Please provide valid input.
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-lg-12">
+                                    <div class="form-group">
+                                      <label for="permanentAddress" class="form-label">Permanent Address</label>
+                                      <textarea name="permanentAddress" id="permanentAddress" cols="30" rows="3" class="form-control" formControlName="permanentAddress" placeholder="Permanent Address"></textarea>
+                                      <div class="text-danger" *ngIf="!f.get('permanentAddress').valid && f.get('permanentAddress').touched">
+                                        Please provide valid input.
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-lg-12">
+                                    <button (click)="updateUser()" type="submit" class="btn btn-primary">Save</button>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- /.tab-pane -->
+                              <div class="tab-pane" id="timeline">
+                                  <!-- The timeline -->
+                                  <div class="timeline timeline-inverse">
+                                      <!-- timeline time label -->
+                                      <div class="time-label">
+                                          <span class="bg-danger">
+                                              10 Feb. 2014
+                                          </span>
+                                      </div>
+                                      <!-- /.timeline-label -->
+                                      <!-- timeline item -->
+                                      <div>
+                                          <i
+                                              class="fas fa-envelope bg-primary"
+                                          ></i>
+
+                                          <div class="timeline-item">
+                                              <span class="time"
+                                                  ><i class="far fa-clock"></i>
+                                                  12:05</span
+                                              >
+
+                                              <h3 class="timeline-header">
+                                                  <a href="#">Support Team</a>
+                                                  sent you an email
+                                              </h3>
+
+                                              <div class="timeline-body">
+                                                  Etsy doostang zoodles disqus
+                                                  groupon greplin oooj voxy
+                                                  zoodles, weebly ning heekya
+                                                  handango imeem plugg dopplr
+                                                  jibjab, movity jajah plickers
+                                                  sifteo edmodo ifttt zimbra.
+                                                  Babblely odeo kaboodle quora
+                                                  plaxo ideeli hulu weebly
+                                                  balihoo...
+                                              </div>
+                                              <div class="timeline-footer">
+                                                  <a
+                                                      href="#"
+                                                      class="btn btn-primary btn-sm"
+                                                      >Read more</a
+                                                  >
+                                                  <a
+                                                      href="#"
+                                                      class="btn btn-danger btn-sm"
+                                                      >Delete</a
+                                                  >
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <!-- END timeline item -->
+                                      <!-- timeline item -->
+                                      <div>
+                                          <i class="fas fa-user bg-info"></i>
+
+                                          <div class="timeline-item">
+                                              <span class="time"
+                                                  ><i class="far fa-clock"></i> 5
+                                                  mins ago</span
+                                              >
+
+                                              <h3
+                                                  class="timeline-header border-0"
+                                              >
+                                                  <a href="#">Sarah Young</a>
+                                                  accepted your friend request
+                                              </h3>
+                                          </div>
+                                      </div>
+                                      <!-- END timeline item -->
+                                      <!-- timeline item -->
+                                      <div>
+                                          <i
+                                              class="fas fa-comments bg-warning"
+                                          ></i>
+
+                                          <div class="timeline-item">
+                                              <span class="time"
+                                                  ><i class="far fa-clock"></i> 27
+                                                  mins ago</span
+                                              >
+
+                                              <h3 class="timeline-header">
+                                                  <a href="#">Jay White</a>
+                                                  commented on your post
+                                              </h3>
+
+                                              <div class="timeline-body">
+                                                  Take me to your leader!
+                                                  Switzerland is small and
+                                                  neutral! We are more like
+                                                  Germany, ambitious and
+                                                  misunderstood!
+                                              </div>
+                                              <div class="timeline-footer">
+                                                  <a
+                                                      href="#"
+                                                      class="btn btn-warning btn-flat btn-sm"
+                                                      >View comment</a
+                                                  >
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <!-- END timeline item -->
+                                      <!-- timeline time label -->
+                                      <div class="time-label">
+                                          <span class="bg-success">
+                                              3 Jan. 2014
+                                          </span>
+                                      </div>
+                                      <!-- /.timeline-label -->
+                                      <!-- timeline item -->
+                                      <div>
+                                          <i class="fas fa-camera bg-purple"></i>
+
+                                          <div class="timeline-item">
+                                              <span class="time"
+                                                  ><i class="far fa-clock"></i> 2
+                                                  days ago</span
+                                              >
+
+                                              <h3 class="timeline-header">
+                                                  <a href="#">Mina Lee</a>
+                                                  uploaded new photos
+                                              </h3>
+
+                                              <div class="timeline-body">
+                                                  <pf-image
+                                                      src="assets/img/default-profile.png"
+                                                      alt="..."
+                                                      width="0"
+                                                      height="0"
+                                                  ></pf-image>
+                                                  <pf-image
+                                                      src="assets/img/default-profile.png"
+                                                      alt="..."
+                                                      width="0"
+                                                      height="0"
+                                                  ></pf-image>
+                                                  <pf-image
+                                                      src="assets/img/default-profile.png"
+                                                      alt="..."
+                                                      width="0"
+                                                      height="0"
+                                                  ></pf-image>
+                                                  <pf-image
+                                                      src="assets/img/default-profile.png"
+                                                      alt="..."
+                                                      width="0"
+                                                      height="0"
+                                                  ></pf-image>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <!-- END timeline item -->
+                                      <div>
+                                          <i class="far fa-clock bg-gray"></i>
+                                      </div>
+                                  </div>
+                              </div>
+                              <!-- /.tab-pane -->
+
+                              <div class="tab-pane" id="settings">
+                                  <!-- <form class="form-horizontal">
+                    <div class="form-group">
+                      <label for="inputName" class="col-sm-2 control-label">Name</label>
+
+                      <div class="col-sm-10">
+                        <input type="email" class="form-control" id="inputName" placeholder="Name">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+
+                      <div class="col-sm-10">
+                        <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputName2" class="col-sm-2 control-label">Name</label>
+
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputName2" placeholder="Name">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputExperience" class="col-sm-2 control-label">Experience</label>
+
+                      <div class="col-sm-10">
+                        <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
+
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-danger">Submit</button>
+                      </div>
+                    </div>
+                  </form> -->
+                              </div>
+                              <!-- /.tab-pane -->
+                          </div>
+                          <!-- /.tab-content -->
+                      </div>
+                      <!-- /.card-body -->
+                  </div>
+                  <!-- /.nav-tabs-custom -->
+              </div>
+              <!-- /.col -->
+          </div>
+          <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+  </section>
+</form>
